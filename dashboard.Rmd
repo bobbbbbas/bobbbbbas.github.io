@@ -17,7 +17,7 @@ library(flexdashboard)
 ```{r}
 data("instacart")
 instacart_clean <- instacart %>%
-  sample_n(600000, replace = FALSE) %>%
+  sample_n(200000, replace = FALSE) %>%
   mutate(
     order_dow = factor(order_dow,
                        levels = 0:6,
