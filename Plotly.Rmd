@@ -1,0 +1,106 @@
+---
+title: "Plotly"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r}
+library(tidyverse)
+library("p8105.datasets")
+library(plotly)
+```
+
+```{r}
+data("instacart")
+instacart_clean <- instacart %>%
+  sample_n(600000, replace = FALSE) %>%
+  mutate(
+    order_dow = factor(order_dow,
+                       levels = 0:6,
+                       labels = c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")),
+    reordered = if_else(reordered == 1, "Yes", "No")
+  ) %>%
+  select(
+    order_id,
+    user_id,
+    product_name,
+    aisle,
+    department,
+    order_dow,
+    order_hour_of_day,
+    reordered,
+    add_to_cart_order,
+    days_since_prior_order
+  ) %>%
+  filter(
+    order_hour_of_day %in% 0:23
+  ) %>%
+  drop_na()
+```
+
+# Plotly plots
+
+## scatterplot + line plot
+```{r}
+orders_by_hour <- instacart_clean %>%
+  count(order_hour_of_day, department)
+
+plot_ly(
+  data = orders_by_hour,
+  x = ~order_hour_of_day,
+  y = ~n,
+  color = ~department,
+  type = "scatter",
+  mode = "markers+lines",
+  hovertemplate = "Hour: %{x}<br>Orders: %{y}<br>Dept: %{color}<extra></extra>"
+) %>%
+  layout(
+    title = "Orders by Hour of Day Across Departments",
+    xaxis = list(title = "Hour of Day"),
+    yaxis = list(title = "Number of Orders")
+  )
+```
+
+## bar plot
+```{r}
+dept_orders <- instacart_clean %>%
+  count(department, name = "total_orders") %>%
+  arrange(desc(total_orders))
+
+plot_ly(
+  data = dept_orders,
+  x = ~reorder(department, total_orders),
+  y = ~total_orders,
+  type = "bar",
+  color = ~department,
+  text = ~paste("Department:", department,
+                "<br>Total Orders:", total_orders),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Total Orders by Department",
+    xaxis = list(title = "Department", tickangle = -45),
+    yaxis = list(title = "Total Number of Orders"),
+    showlegend = FALSE
+  )
+```
+## box plot
+
+```{r}
+plot_ly(
+  data = instacart_clean,
+  x = ~reordered,
+  y = ~add_to_cart_order,
+  color = ~reordered,
+  type = "box",
+  hovertemplate = "Reordered: %{x}<br>Add-to-cart order: %{y}<extra></extra>"
+) %>%
+  layout(
+    title = "Add-to-Cart Order by Reordered Status",
+    xaxis = list(title = "Reordered?"),
+    yaxis = list(title = "Add-to-Cart Order (1 = added earliest)"),
+    showlegend = FALSE
+  )
+```

@@ -4,11 +4,35 @@ output:
   html_document:
     toc: true
     toc_float: true
- 
 ---
 
-# This page has information about me
+## This page has information about me
+### Education
 
+- Columbia University
+-Master of public health in Biostatistics
+(Aug 2024 - May 2026)
+
+
+### Professional Experience
+
+- MediLink (Insurance company) 
+-Data Analytics Intern 
+(May 2024 - Jul 2024)
+
+
+### Research Experience
+
+- Study on DNR Status and Perioperative Outcomes in Pediatric Patients 
+-Research Assistant
+(Jun 2025 - Sep 2025)
+
+
+### Campus Involvement
+
+- Virginia Tech Dining Services
+-Student worker
+(Sep 2022 - May 2024)
 
 
 

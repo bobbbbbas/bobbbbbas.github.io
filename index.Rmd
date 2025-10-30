@@ -1,18 +1,16 @@
 ---
-title: "My awesome website"
+title: "Xiwei Fu's website"
 output: 
   html_document:
     toc: true
     toc_float: true
+    code_folding: hide
 ---
 
-# This is Xiwei's awesome website
-
-![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+# This is Xiwei's awesome website for p-8105 hw4
 
 
 
-# Local image
 
 ![](images/duodong.png)
 
